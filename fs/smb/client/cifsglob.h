@@ -184,8 +184,8 @@ struct cifs_cred {
 	int gid;
 	int mode;
 	int cecount;
-	struct cifs_sid osid;
-	struct cifs_sid gsid;
+	struct smb_sid osid;
+	struct smb_sid gsid;
 	struct cifs_ntace *ntaces;
 	struct cifs_ace *aces;
 };
@@ -209,8 +209,8 @@ struct cifs_open_info_data {
 		};
 	} reparse;
 	char *symlink_target;
-	struct cifs_sid posix_owner;
-	struct cifs_sid posix_group;
+	struct smb_sid posix_owner;
+	struct smb_sid posix_group;
 	union {
 		struct smb2_file_all_info fi;
 		struct smb311_posix_qinfo posix_fi;
