@@ -60,7 +60,7 @@ static inline void btrfs_release_log_ctx_extents(struct btrfs_log_ctx *ctx)
 	struct btrfs_ordered_extent *ordered;
 	struct btrfs_ordered_extent *tmp;
 
-	ASSERT(inode_is_locked(ctx->inode));
+	btrfs_assert_inode_locked(BTRFS_I(ctx->inode));
 
 	list_for_each_entry_safe(ordered, tmp, &ctx->ordered_extents, log_list) {
 		list_del_init(&ordered->log_list);
