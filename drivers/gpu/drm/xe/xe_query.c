@@ -160,7 +160,11 @@ query_engine_cycles(struct xe_device *xe,
 
 	xe_force_wake_put(gt_to_fw(gt), XE_FORCEWAKE_ALL);
 	xe_device_mem_access_put(xe);
-	resp.width = 36;
+
+	if (GRAPHICS_VER(xe) >= 20)
+		resp.width = 64;
+	else
+		resp.width = 36;
 
 	/* Only write to the output fields of user query */
 	if (put_user(resp.cpu_timestamp, &query_ptr->cpu_timestamp))
