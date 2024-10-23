@@ -174,10 +174,11 @@ static void _kvm_save_timer(struct kvm_vcpu *vcpu)
 		vcpu->arch.expire = expire;
 
 		/*
-		 * HRTIMER_MODE_PINNED is suggested since vcpu may run in
-		 * the same physical cpu in next time
+		 * HRTIMER_MODE_PINNED_HARD is suggested since vcpu may run in
+		 * the same physical cpu in next time, and the timer should run
+		 * in hardirq context even in the PREEMPT_RT case.
 		 */
-		hrtimer_start(&vcpu->arch.swtimer, expire, HRTIMER_MODE_ABS_PINNED);
+		hrtimer_start(&vcpu->arch.swtimer, expire, HRTIMER_MODE_ABS_PINNED_HARD);
 	} else if (vcpu->stat.generic.blocking) {
 		/*
 		 * Inject timer interrupt so that halt polling can dectect and exit.
