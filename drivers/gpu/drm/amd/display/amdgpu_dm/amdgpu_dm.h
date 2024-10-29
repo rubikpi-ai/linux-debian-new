@@ -692,7 +692,7 @@ struct amdgpu_dm_connector {
 	/* Cached display modes */
 	struct drm_display_mode freesync_vid_base;
 
-	int psr_skip_count;
+	int sr_skip_count;
 
 	/* Record progress status of mst*/
 	uint8_t mst_status;

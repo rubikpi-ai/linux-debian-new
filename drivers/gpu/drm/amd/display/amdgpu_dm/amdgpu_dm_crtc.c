@@ -133,7 +133,7 @@ static void amdgpu_dm_crtc_vblank_control_worker(struct work_struct *work)
 #ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
 			   !amdgpu_dm_crc_window_is_activated(&vblank_work->acrtc->base) &&
 #endif
-			   vblank_work->acrtc->dm_irq_params.allow_psr_entry) {
+			   vblank_work->acrtc->dm_irq_params.allow_sr_entry) {
 			amdgpu_dm_psr_enable(vblank_work->stream);
 		}
 	}
