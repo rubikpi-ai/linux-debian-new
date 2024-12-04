@@ -40,6 +40,7 @@
 #define CQSPI_NO_SUPPORT_WR_COMPLETION	BIT(3)
 #define CQSPI_SLOW_SRAM		BIT(4)
 #define CQSPI_NEEDS_APB_AHB_HAZARD_WAR	BIT(5)
+#define CQSPI_DISABLE_STIG_MODE		BIT(7)
 
 /* Capabilities */
 #define CQSPI_SUPPORTS_OCTAL		BIT(0)
@@ -100,6 +101,7 @@ struct cqspi_st {
 	bool			apb_ahb_hazard;
 
 	bool			is_jh7110; /* Flag for StarFive JH7110 SoC */
+	bool			disable_stig_mode;
 };
 
 struct cqspi_driver_platdata {
@@ -1395,7 +1397,8 @@ static int cqspi_mem_process(struct spi_mem *mem, const struct spi_mem_op *op)
 	 * reads, prefer STIG mode for such small reads.
 	 */
 		if (!op->addr.nbytes ||
-		    op->data.nbytes <= CQSPI_STIG_DATA_LEN_MAX)
+		    (op->data.nbytes <= CQSPI_STIG_DATA_LEN_MAX &&
+		     !cqspi->disable_stig_mode))
 			return cqspi_command_read(f_pdata, op);
 
 		return cqspi_read(f_pdata, op);
@@ -1842,6 +1845,8 @@ static int cqspi_probe(struct platform_device *pdev)
 			if (ret)
 				goto probe_reset_failed;
 		}
+		if (ddata->quirks & CQSPI_DISABLE_STIG_MODE)
+			cqspi->disable_stig_mode = true;
 
 		if (of_device_is_compatible(pdev->dev.of_node,
 					    "xlnx,versal-ospi-1.0")) {
@@ -2000,7 +2005,8 @@ static const struct cqspi_driver_platdata intel_lgm_qspi = {
 static const struct cqspi_driver_platdata socfpga_qspi = {
 	.quirks = CQSPI_DISABLE_DAC_MODE
 			| CQSPI_NO_SUPPORT_WR_COMPLETION
-			| CQSPI_SLOW_SRAM,
+			| CQSPI_SLOW_SRAM
+			| CQSPI_DISABLE_STIG_MODE,
 };
 
 static const struct cqspi_driver_platdata versal_ospi = {
