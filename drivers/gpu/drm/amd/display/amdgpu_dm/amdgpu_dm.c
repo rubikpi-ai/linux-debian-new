@@ -8763,7 +8763,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
 			 * adequate number of fast atomic commits to notify KMD
 			 * of update events. See `vblank_control_worker()`.
 			 */
-			if (acrtc_state->stream->link->psr_settings.psr_version >= DC_PSR_VERSION_SU_1 &&
+			if (acrtc_state->stream->link->psr_settings.psr_version == DC_PSR_VERSION_SU_1 &&
 			    acrtc_attach->dm_irq_params.allow_sr_entry &&
 #ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
 			    !amdgpu_dm_crc_window_is_activated(acrtc_state->base.crtc) &&
