@@ -265,12 +265,6 @@ struct cs35l56_base {
 	struct gpio_desc *reset_gpio;
 };
 
-/* Temporary to avoid a build break with the HDA driver */
-static inline int cs35l56_force_sync_asp1_registers_from_cache(struct cs35l56_base *cs35l56_base)
-{
-	return 0;
-}
-
 extern struct regmap_config cs35l56_regmap_i2c;
 extern struct regmap_config cs35l56_regmap_spi;
 extern struct regmap_config cs35l56_regmap_sdw;
