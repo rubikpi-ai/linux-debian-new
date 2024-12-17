@@ -3003,7 +3003,7 @@ static void copy_stream_update_to_stream(struct dc *dc,
 }
 
 static void backup_plane_states_for_stream(
-		struct dc_plane_state plane_states[MAX_SURFACE_NUM],
+		struct dc_plane_state plane_states[MAX_SURFACES],
 		struct dc_stream_state *stream)
 {
 	int i;
@@ -3017,7 +3017,7 @@ static void backup_plane_states_for_stream(
 }
 
 static void restore_plane_states_for_stream(
-		struct dc_plane_state plane_states[MAX_SURFACE_NUM],
+		struct dc_plane_state plane_states[MAX_SURFACES],
 		struct dc_stream_state *stream)
 {
 	int i;

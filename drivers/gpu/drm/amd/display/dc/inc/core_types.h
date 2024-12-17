@@ -613,7 +613,7 @@ struct dc_state {
 		 * store current value in plane states so we can still recover
 		 * a valid current state during dc update.
 		 */
-		struct dc_plane_state plane_states[MAX_SURFACE_NUM];
+		struct dc_plane_state plane_states[MAX_SURFACES];
 	} scratch;
 };
 
