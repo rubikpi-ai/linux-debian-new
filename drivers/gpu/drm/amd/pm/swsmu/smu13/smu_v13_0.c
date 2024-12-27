@@ -1321,11 +1321,11 @@ static int smu_v13_0_set_irq_state(struct amdgpu_device *adev,
 	return 0;
 }
 
-static int smu_v13_0_ack_ac_dc_interrupt(struct smu_context *smu)
+void smu_v13_0_interrupt_work(struct smu_context *smu)
 {
-	return smu_cmn_send_smc_msg(smu,
-				    SMU_MSG_ReenableAcDcInterrupt,
-				    NULL);
+	smu_cmn_send_smc_msg(smu,
+			     SMU_MSG_ReenableAcDcInterrupt,
+			     NULL);
 }
 
 #define THM_11_0__SRCID__THM_DIG_THERM_L2H		0		/* ASIC_TEMP > CG_THERMAL_INT.DIG_THERM_INTH  */
@@ -1378,12 +1378,12 @@ static int smu_v13_0_irq_process(struct amdgpu_device *adev,
 			switch (ctxid) {
 			case 0x3:
 				dev_dbg(adev->dev, "Switched to AC mode!\n");
-				smu_v13_0_ack_ac_dc_interrupt(smu);
+				schedule_work(&smu->interrupt_work);
 				adev->pm.ac_power = true;
 				break;
 			case 0x4:
 				dev_dbg(adev->dev, "Switched to DC mode!\n");
-				smu_v13_0_ack_ac_dc_interrupt(smu);
+				schedule_work(&smu->interrupt_work);
 				adev->pm.ac_power = false;
 				break;
 			case 0x7:
