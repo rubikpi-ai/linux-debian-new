@@ -62,7 +62,7 @@ static ssize_t netfs_unbuffered_write_iter_locked(struct kiocb *iocb, struct iov
 		 * allocate a sufficiently large bvec array and may shorten the
 		 * request.
 		 */
-		if (async || user_backed_iter(iter)) {
+		if (user_backed_iter(iter)) {
 			n = netfs_extract_user_iter(iter, wreq->len, &wreq->iter, 0);
 			if (n < 0) {
 				ret = n;
@@ -73,6 +73,11 @@ static ssize_t netfs_unbuffered_write_iter_locked(struct kiocb *iocb, struct iov
 			wreq->direct_bv_unpin = iov_iter_extract_will_pin(iter);
 			wreq->len = iov_iter_count(&wreq->iter);
 		} else {
+			/* If this is a kernel-generated async DIO request,
+			 * assume that any resources the iterator points to
+			 * (eg. a bio_vec array) will persist till the end of
+			 * the op.
+			 */
 			wreq->iter = *iter;
 		}
 
