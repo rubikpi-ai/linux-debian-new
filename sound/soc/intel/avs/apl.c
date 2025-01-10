@@ -11,6 +11,7 @@
 #include "avs.h"
 #include "messages.h"
 #include "path.h"
+#include "registers.h"
 #include "topology.h"
 
 static int __maybe_unused

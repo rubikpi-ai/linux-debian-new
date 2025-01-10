@@ -11,6 +11,7 @@
 #include <sound/hdaudio_ext.h>
 #include "avs.h"
 #include "messages.h"
+#include "registers.h"
 
 static int __maybe_unused
 avs_skl_enable_logs(struct avs_dev *adev, enum avs_log_enable enable, u32 aging_period,
