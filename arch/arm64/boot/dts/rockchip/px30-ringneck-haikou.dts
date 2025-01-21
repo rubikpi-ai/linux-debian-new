@@ -226,7 +226,6 @@
 };
 
 &uart5 {
-	pinctrl-0 = <&uart5_xfer>;
 	status = "okay";
 };
 
