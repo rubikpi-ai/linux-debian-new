@@ -373,6 +373,15 @@ static void dsi_pll_enable_pll_bias(struct dsi_pll_7nm *pll)
 	ndelay(250);
 }
 
+static void dsi_pll_cmn_clk_cfg0_write(struct dsi_pll_7nm *pll, u32 val)
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(&pll->postdiv_lock, flags);
+	dsi_phy_write(pll->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG0, val);
+	spin_unlock_irqrestore(&pll->postdiv_lock, flags);
+}
+
 static void dsi_pll_disable_global_clk(struct dsi_pll_7nm *pll)
 {
 	u32 data;
@@ -576,7 +585,7 @@ static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
 	val |= cached->pll_out_div;
 	dsi_phy_write(pll_7nm->phy->pll_base + REG_DSI_7nm_PHY_PLL_PLL_OUTDIV_RATE, val);
 
-	dsi_phy_write(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG0,
+	dsi_pll_cmn_clk_cfg0_write(pll_7nm,
 		      cached->bit_clk_div | (cached->pix_clk_div << 4));
 
 	val = dsi_phy_read(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
