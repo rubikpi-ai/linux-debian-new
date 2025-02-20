@@ -730,9 +730,9 @@ static int ivpu_hw_40xx_info_init(struct ivpu_device *vdev)
 	ivpu_pll_init_frequency_ratios(vdev);
 
 	ivpu_hw_init_range(&vdev->hw->ranges.global, 0x80000000, SZ_512M);
-	ivpu_hw_init_range(&vdev->hw->ranges.user,   0x80000000, SZ_256M);
-	ivpu_hw_init_range(&vdev->hw->ranges.shave,  0x80000000 + SZ_256M, SZ_2G - SZ_256M);
-	ivpu_hw_init_range(&vdev->hw->ranges.dma,   0x200000000, SZ_8G);
+	ivpu_hw_init_range(&vdev->hw->ranges.shave,  0x80000000, SZ_2G);
+	ivpu_hw_init_range(&vdev->hw->ranges.user,  0x100000000, SZ_256G);
+	vdev->hw->ranges.dma = vdev->hw->ranges.user;
 
 	ivpu_hw_read_platform(vdev);
 	ivpu_hw_wa_init(vdev);

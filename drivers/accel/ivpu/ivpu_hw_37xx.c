@@ -593,9 +593,9 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
 	ivpu_pll_init_frequency_ratios(vdev);
 
 	ivpu_hw_init_range(&hw->ranges.global, 0x80000000, SZ_512M);
-	ivpu_hw_init_range(&hw->ranges.user,   0xc0000000, 255 * SZ_1M);
+	ivpu_hw_init_range(&hw->ranges.user,   0x88000000, 511 * SZ_1M);
 	ivpu_hw_init_range(&hw->ranges.shave, 0x180000000, SZ_2G);
-	ivpu_hw_init_range(&hw->ranges.dma,   0x200000000, SZ_8G);
+	ivpu_hw_init_range(&hw->ranges.dma,   0x200000000, SZ_128G);
 
 	vdev->platform = IVPU_PLATFORM_SILICON;
 	ivpu_hw_wa_init(vdev);
