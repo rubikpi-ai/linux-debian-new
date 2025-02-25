@@ -215,7 +215,6 @@ struct i915_sched_attr {
 	     intel_runtime_pm_put((rpm), (wf)), (wf) = 0)
 
 #define pdev_to_i915 pdev_to_xe_device
-#define RUNTIME_INFO(xe)		(&(xe)->info.i915_runtime)
 
 #define FORCEWAKE_ALL XE_FORCEWAKE_ALL
 #define HPD_STORM_DEFAULT_THRESHOLD 50

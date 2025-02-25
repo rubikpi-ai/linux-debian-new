@@ -276,12 +276,6 @@ struct xe_device {
 		u8 has_heci_gscfi:1;
 		/** @skip_guc_pc: Skip GuC based PM feature init */
 		u8 skip_guc_pc:1;
-
-#if IS_ENABLED(CONFIG_DRM_XE_DISPLAY)
-		struct {
-			u32 rawclk_freq;
-		} i915_runtime;
-#endif
 	} info;
 
 	/** @irq: device interrupt state */
