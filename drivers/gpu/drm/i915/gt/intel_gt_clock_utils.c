@@ -151,7 +151,7 @@ static u32 gen4_read_clock_frequency(struct intel_uncore *uncore)
 	 *
 	 * Testing on actual hardware has shown there is no /16.
 	 */
-	return RUNTIME_INFO(uncore->i915)->rawclk_freq * 1000;
+	return DISPLAY_RUNTIME_INFO(uncore->i915)->rawclk_freq * 1000;
 }
 
 static u32 read_clock_frequency(struct intel_uncore *uncore)
