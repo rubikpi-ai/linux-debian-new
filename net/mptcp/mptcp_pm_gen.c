@@ -150,7 +150,6 @@ const struct genl_ops mptcp_pm_nl_ops[11] = {
 		.doit		= mptcp_pm_nl_announce_doit,
 		.policy		= mptcp_pm_announce_nl_policy,
 		.maxattr	= MPTCP_PM_ATTR_TOKEN,
-		.flags		= GENL_UNS_ADMIN_PERM,
 	},
 	{
 		.cmd		= MPTCP_PM_CMD_REMOVE,
