@@ -12,6 +12,7 @@
 
 #include <linux/types.h>
 #include <linux/kernel.h>
+#include <linux/nospec.h>
 #include "mgb4_core.h"
 #include "mgb4_cmt.h"
 
@@ -226,6 +227,8 @@ void mgb4_cmt_set_vin_freq_range(struct mgb4_vin_dev *vindev,
 	const u32 *addr;
 	u32 config;
 	size_t i;
+
+	freq_range = array_index_nospec(freq_range, ARRAY_SIZE(cmt_vals_in));
 
 	addr = cmt_addrs_in[vindev->config->id];
 	reg_set = cmt_vals_in[freq_range];
