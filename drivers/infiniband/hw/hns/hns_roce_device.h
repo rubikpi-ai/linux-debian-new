@@ -477,12 +477,6 @@ struct hns_roce_bank {
 	u32 next; /* Next ID to allocate. */
 };
 
-struct hns_roce_idx_table {
-	u32 *spare_idx;
-	u32 head;
-	u32 tail;
-};
-
 struct hns_roce_qp_table {
 	struct hns_roce_hem_table	qp_table;
 	struct hns_roce_hem_table	irrl_table;
@@ -491,7 +485,7 @@ struct hns_roce_qp_table {
 	struct mutex			scc_mutex;
 	struct hns_roce_bank bank[HNS_ROCE_QP_BANK_NUM];
 	struct mutex bank_mutex;
-	struct hns_roce_idx_table	idx_table;
+	struct xarray			dip_xa;
 };
 
 struct hns_roce_cq_table {
@@ -644,6 +638,7 @@ struct hns_roce_qp {
 	u32			config;
 	enum hns_roce_cong_type	cong_type;
 	spinlock_t flush_lock;
+	struct hns_roce_dip *dip;
 };
 
 struct hns_roce_ib_iboe {
@@ -966,8 +961,6 @@ struct hns_roce_dev {
 	enum hns_roce_device_state state;
 	struct list_head	qp_list; /* list of all qps on this dev */
 	spinlock_t		qp_list_lock; /* protect qp_list */
-	struct list_head	dip_list; /* list of all dest ips on this dev */
-	spinlock_t		dip_list_lock; /* protect dip_list */
 
 	struct list_head        pgdir_list;
 	struct mutex            pgdir_mutex;
