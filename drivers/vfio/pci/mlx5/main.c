@@ -689,14 +689,11 @@ mlx5vf_pci_save_device_data(struct mlx5vf_pci_core_device *mvdev, bool track)
 					O_RDONLY);
 	if (IS_ERR(migf->filp)) {
 		ret = PTR_ERR(migf->filp);
-		goto end;
+		kfree(migf);
+		return ERR_PTR(ret);
 	}
 
 	migf->mvdev = mvdev;
-	ret = mlx5vf_cmd_alloc_pd(migf);
-	if (ret)
-		goto out_free;
-
 	stream_open(migf->filp->f_inode, migf->filp);
 	mutex_init(&migf->lock);
 	init_waitqueue_head(&migf->poll_wait);
@@ -712,6 +709,11 @@ mlx5vf_pci_save_device_data(struct mlx5vf_pci_core_device *mvdev, bool track)
 	INIT_LIST_HEAD(&migf->buf_list);
 	INIT_LIST_HEAD(&migf->avail_list);
 	spin_lock_init(&migf->list_lock);
+
+	ret = mlx5vf_cmd_alloc_pd(migf);
+	if (ret)
+		goto out;
+
 	ret = mlx5vf_cmd_query_vhca_migration_state(mvdev, &length, &full_size, 0);
 	if (ret)
 		goto out_pd;
@@ -741,10 +743,8 @@ out_save:
 	mlx5vf_free_data_buffer(buf);
 out_pd:
 	mlx5fv_cmd_clean_migf_resources(migf);
-out_free:
+out:
 	fput(migf->filp);
-end:
-	kfree(migf);
 	return ERR_PTR(ret);
 }
 
@@ -1103,13 +1103,19 @@ mlx5vf_pci_resume_device_data(struct mlx5vf_pci_core_device *mvdev)
 					O_WRONLY);
 	if (IS_ERR(migf->filp)) {
 		ret = PTR_ERR(migf->filp);
-		goto end;
+		kfree(migf);
+		return ERR_PTR(ret);
 	}
 
+	stream_open(migf->filp->f_inode, migf->filp);
+	mutex_init(&migf->lock);
+	INIT_LIST_HEAD(&migf->buf_list);
+	INIT_LIST_HEAD(&migf->avail_list);
+	spin_lock_init(&migf->list_lock);
 	migf->mvdev = mvdev;
 	ret = mlx5vf_cmd_alloc_pd(migf);
 	if (ret)
-		goto out_free;
+		goto out;
 
 	buf = mlx5vf_alloc_data_buffer(migf, 0, DMA_TO_DEVICE);
 	if (IS_ERR(buf)) {
@@ -1133,20 +1139,13 @@ mlx5vf_pci_resume_device_data(struct mlx5vf_pci_core_device *mvdev)
 		migf->load_state = MLX5_VF_LOAD_STATE_READ_IMAGE_NO_HEADER;
 	}
 
-	stream_open(migf->filp->f_inode, migf->filp);
-	mutex_init(&migf->lock);
-	INIT_LIST_HEAD(&migf->buf_list);
-	INIT_LIST_HEAD(&migf->avail_list);
-	spin_lock_init(&migf->list_lock);
 	return migf;
 out_buf:
 	mlx5vf_free_data_buffer(migf->buf[0]);
 out_pd:
 	mlx5vf_cmd_dealloc_pd(migf);
-out_free:
+out:
 	fput(migf->filp);
-end:
-	kfree(migf);
 	return ERR_PTR(ret);
 }
 
