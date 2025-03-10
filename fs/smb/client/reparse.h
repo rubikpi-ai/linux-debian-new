@@ -10,6 +10,8 @@
 #include <linux/stat.h>
 #include "cifsglob.h"
 
+#define REPARSE_SYM_PATH_MAX 4060
+
 /*
  * Used only by cifs.ko to ignore reparse points from files when client or
  * server doesn't support FSCTL_GET_REPARSE_POINT.
