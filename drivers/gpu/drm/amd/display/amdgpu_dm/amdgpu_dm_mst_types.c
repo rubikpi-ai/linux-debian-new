@@ -1100,6 +1100,7 @@ static int compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
 	int i, k, ret;
 	bool debugfs_overwrite = false;
 	uint16_t fec_overhead_multiplier_x1000 = get_fec_overhead_multiplier(dc_link);
+	struct drm_connector_state *new_conn_state;
 
 	memset(params, 0, sizeof(params));
 
@@ -1121,6 +1122,14 @@ static int compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
 
 		if (!aconnector->mst_output_port)
 			continue;
+
+		new_conn_state = drm_atomic_get_new_connector_state(state, &aconnector->base);
+
+		if (!new_conn_state) {
+			DRM_DEBUG_DRIVER("%s:%d MST_DSC Skip the stream 0x%p with invalid new_conn_state\n",
+					__func__, __LINE__, stream);
+			continue;
+		}
 
 		stream->timing.flags.DSC = 0;
 
@@ -1150,6 +1159,8 @@ static int compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
 
 		count++;
 	}
+
+	DRM_DEBUG_DRIVER("%s: MST_DSC Params set up for %d streams\n", __func__, count);
 
 	if (count == 0) {
 		ASSERT(0);
