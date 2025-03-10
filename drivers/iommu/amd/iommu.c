@@ -2065,6 +2065,8 @@ static void protection_domain_free(struct protection_domain *domain)
 	if (!domain)
 		return;
 
+	WARN_ON(!list_empty(&domain->dev_list));
+
 	if (domain->iop.pgtbl_cfg.tlb)
 		free_io_pgtable_ops(&domain->iop.iop.ops);
 
