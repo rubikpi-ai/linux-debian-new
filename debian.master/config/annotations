@@ -5928,6 +5928,7 @@ CONFIG_HIP04_ETH                                policy<{'arm64': 'm', 'armhf': '
 CONFIG_HIPPI                                    policy<{'amd64': 'n', 'arm64': 'n', 'armhf': 'n', 'ppc64el': 'n', 'riscv64': 'n', 's390x': 'n'}>
 CONFIG_HISILICON_ERRATUM_161010101              policy<{'arm64': 'y'}>
 CONFIG_HISILICON_ERRATUM_161600802              policy<{'arm64': 'y'}>
+CONFIG_HISILICON_ERRATUM_162100801              policy<{'arm64': 'y'}>
 CONFIG_HISILICON_IRQ_MBIGEN                     policy<{'arm64': 'y'}>
 CONFIG_HISILICON_LPC                            policy<{'arm64': 'y'}>
 CONFIG_HISI_ACC_VFIO_PCI                        policy<{'arm64': 'm'}>
