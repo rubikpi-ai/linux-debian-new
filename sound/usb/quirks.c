@@ -1668,6 +1668,7 @@ int snd_usb_apply_boot_quirk(struct usb_device *dev,
 			return snd_usb_motu_microbookii_boot_quirk(dev);
 		break;
 	case USB_ID(0x2a39, 0x3f8c): /* RME Digiface USB */
+	case USB_ID(0x2a39, 0x3fa0): /* RME Digiface USB (alternate) */
 		return snd_usb_rme_digiface_boot_quirk(dev);
 	}
 
@@ -1838,6 +1839,7 @@ void snd_usb_set_format_quirk(struct snd_usb_substream *subs,
 		pioneer_djm_set_format_quirk(subs, 0x0086);
 		break;
 	case USB_ID(0x2a39, 0x3f8c): /* RME Digiface USB */
+	case USB_ID(0x2a39, 0x3fa0): /* RME Digiface USB (alternate) */
 		rme_digiface_set_format_quirk(subs);
 		break;
 	}
