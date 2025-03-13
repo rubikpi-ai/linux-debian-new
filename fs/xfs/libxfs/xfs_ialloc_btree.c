@@ -754,15 +754,17 @@ xfs_inobt_count_blocks(
 {
 	struct xfs_buf		*agbp = NULL;
 	struct xfs_btree_cur	*cur = NULL;
+	xfs_filblks_t		blocks;
 	int			error;
 
 	error = xfs_inobt_cur(pag, tp, btnum, &cur, &agbp);
 	if (error)
 		return error;
 
-	error = xfs_btree_count_blocks(cur, tree_blocks);
+	error = xfs_btree_count_blocks(cur, &blocks);
 	xfs_btree_del_cursor(cur, error);
 	xfs_trans_brelse(tp, agbp);
+	*tree_blocks = blocks;
 
 	return error;
 }
