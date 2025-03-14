@@ -91,6 +91,7 @@ struct m_can_classdev {
 
 	int pm_clock_support;
 	int is_peripheral;
+	bool irq_edge_triggered;
 
 	struct mram_cfg mcfg[MRAM_CFG_NUM];
 
