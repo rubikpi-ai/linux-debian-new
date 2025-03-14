@@ -624,4 +624,6 @@ int xfs_inode_reload_unlinked(struct xfs_inode *ip);
 
 bool xfs_ifork_zapped(const struct xfs_inode *ip, int whichfork);
 
+unsigned int xfs_inode_alloc_unitsize(struct xfs_inode *ip);
+
 #endif	/* __XFS_INODE_H__ */
