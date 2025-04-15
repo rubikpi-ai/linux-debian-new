@@ -1855,3 +1855,6 @@ config GPIO_SIM
 endmenu
 
 endif
+
+config DEV_SYNC_PROBE
+	tristate
