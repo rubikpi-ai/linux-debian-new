@@ -119,6 +119,15 @@ static const struct rtw89_imr_table rtw8922a_imr_cmac_table = {
 	.n_regs = ARRAY_SIZE(rtw8922a_imr_cmac_regs),
 };
 
+static const struct rtw89_rfkill_regs rtw8922a_rfkill_regs = {
+	.pinmux = {R_BE_GPIO8_15_FUNC_SEL,
+		   B_BE_PINMUX_GPIO9_FUNC_SEL_MASK,
+		   0xf},
+	.mode = {R_BE_GPIO_EXT_CTRL + 2,
+		 (B_BE_GPIO_MOD_9 | B_BE_GPIO_IO_SEL_9) >> 16,
+		 0x0},
+};
+
 static const struct rtw89_efuse_block_cfg rtw8922a_efuse_blocks[] = {
 	[RTW89_EFUSE_BLOCK_SYS]			= {.offset = 0x00000, .size = 0x310},
 	[RTW89_EFUSE_BLOCK_RF]			= {.offset = 0x10000, .size = 0x240},
@@ -696,6 +705,8 @@ const struct rtw89_chip_info rtw8922a_chip_info = {
 	.imr_cmac_table		= &rtw8922a_imr_cmac_table,
 	.bss_clr_vld		= {R_BSS_CLR_VLD_V2, B_BSS_CLR_VLD0_V2},
 	.bss_clr_map_reg	= R_BSS_CLR_MAP_V2,
+	.rfkill_init		= &rtw8922a_rfkill_regs,
+	.rfkill_get		= {R_BE_GPIO_EXT_CTRL, B_BE_GPIO_IN_9},
 	.dma_ch_mask		= 0,
 #ifdef CONFIG_PM
 	.wowlan_stub		= &rtw_wowlan_stub_8922a,
