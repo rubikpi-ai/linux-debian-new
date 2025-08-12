@@ -840,15 +840,20 @@ void migrate_device_finalize(unsigned long *src_pfns,
 
 		src = page_folio(page);
 		dst = page_folio(newpage);
-		if (!is_zone_device_page(page))
-			putback_lru_page(page);
 		remove_migration_ptes(src, dst, false);
 		folio_unlock(src);
-		put_page(page);
+
+		if (is_zone_device_page(page))
+			put_page(page);
+		else
+			putback_lru_page(page);
 
 		if (newpage != page) {
 			unlock_page(newpage);
-			put_page(newpage);
+			if (is_zone_device_page(newpage))
+				put_page(newpage);
+			else
+				putback_lru_page(newpage);
 		}
 	}
 }
