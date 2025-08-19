@@ -6309,3 +6309,21 @@ static void pci_fixup_d3cold_delay_1sec(struct pci_dev *pdev)
 	pdev->d3cold_delay = 1000;
 }
 DECLARE_PCI_FIXUP_FINAL(0x5555, 0x0004, pci_fixup_d3cold_delay_1sec);
+
+/*
+ * Although the root port device claims to support RRS, some devices don't work
+ * with RRS polling, when reading the Vendor ID, they just return ~0 if config
+ * access is not ready, this will break the pci_dev_wait(). Here disable the RRS
+ * forcibly for this type of device.
+ */
+static void quirk_no_rrs_sv(struct pci_dev *dev)
+{
+	struct pci_dev *root;
+
+	root = pcie_find_root_port(dev);
+	if (root) {
+		root->dev_flags |= PCI_DEV_FLAGS_NO_RRS_SV;
+		root->config_crs_sv = 0;
+	}
+}
+DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL, 0x0a54, quirk_no_rrs_sv);
