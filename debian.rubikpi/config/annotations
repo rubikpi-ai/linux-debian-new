@@ -197,6 +197,12 @@ CONFIG_BCMDHD_SDIO                              policy<{'arm64': 'y'}>
 CONFIG_BCMDHD_SDIO_IRQ                          policy<{'arm64': 'n'}>
 CONFIG_BCMDHD_USB                               policy<{'arm64': 'n'}>
 CONFIG_BERLIN2_ADC                              policy<{'arm64': '-'}>
+CONFIG_BRCMFMAC                                 policy<{'amd64': 'm', 'arm64': 'n', 'armhf': 'm', 'ppc64el': 'm', 'riscv64': 'm'}>
+CONFIG_BRCMFMAC_PCIE                            policy<{'amd64': 'y', 'arm64': '-', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y'}>
+CONFIG_BRCMFMAC_PROTO_BCDC                      policy<{'amd64': 'y', 'arm64': '-', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y'}>
+CONFIG_BRCMFMAC_PROTO_MSGBUF                    policy<{'amd64': 'y', 'arm64': '-', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y'}>
+CONFIG_BRCMFMAC_SDIO                            policy<{'amd64': 'y', 'arm64': '-', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y'}>
+CONFIG_BRCMFMAC_USB                             policy<{'amd64': 'y', 'arm64': '-', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y'}>
 CONFIG_CAN_BXCAN                                policy<{'arm64': '-'}>
 CONFIG_CAN_RCAR                                 policy<{'arm64': '-'}>
 CONFIG_CAN_RCAR_CANFD                           policy<{'arm64': '-'}>
